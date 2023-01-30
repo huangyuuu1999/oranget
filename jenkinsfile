@@ -1,0 +1,50 @@
+pipeline {
+    agent {
+        label "local"  // 拉取、镜像制备、部署在同一节点
+    } // 只在local 节点构建，部署
+
+    stages {
+        stage('Clean-task') {
+        }
+        stage('build dist') {
+        }
+        stage('Build-image&&Push') {
+            steps {
+                echo 'Building..已经拉取源码，在此处执行构建'// 已经拉取源码，在此处执行构建
+                withCredentials([usernamePassword(credentialsId: 'jenkins-access-harbor', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]){
+                    sh """
+                        echo ${PASSWORD} | docker login -u 'gongyulei' --password-stdin 43.139.176.247/fruit_buckets
+
+                        # build
+                        docker build -t 43.139.176.247/fruit_buckets/orangear:latest .
+                        docker push 43.139.176.247/fruit_buckets/orangear:latest
+                    """
+                }
+            }
+        }
+        stage('Test') {
+            steps {
+                echo 'Testing.. I would add some test case later...'
+                sh """
+                    whoami
+                    pwd
+                    hostname
+                """
+            }
+        }
+        stage('Deploy') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'jenkins-access-harbor', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]){
+                    sh """
+                        echo ${PASSWORD} | docker login -u 'gongyulei' --password-stdin 43.139.176.247/fruit_buckets
+
+                        # pull
+                        docker pull 43.139.176.247/fruit_buckets/orangear:latest
+                        # deploy
+                        docker run -d --name app -p5001:80 43.139.176.247/fruit_buckets/orangear:latest
+                    """
+                }
+            }
+        }
+    }
+}
