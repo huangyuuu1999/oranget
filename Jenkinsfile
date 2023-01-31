@@ -5,13 +5,19 @@ pipeline {
 
     stages {
         stage('build-image') {
-        	echo "go build..."
-		}
+			steps {
+				echo "go build..."
+			}
+        }
         stage('push-image&&pull') {
-	        echo "pulling..."
+			steps{
+	        	echo "pulling..."
+			}
         }
         stage('deploy') {
-          	echo "deploy! running...."
+			steps{
+          		echo "deploy! running...."
+			}
         }
     }
 }
