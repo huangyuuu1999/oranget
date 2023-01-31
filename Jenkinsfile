@@ -6,17 +6,55 @@ pipeline {
     stages {
         stage('build-image') {
 			steps {
-				echo "go build..."
+                // 停止之前启动的容器
+				script {
+                    try {
+                        sh """ 
+                            docker stop app_back || true
+                            docker rm app_back || true
+                        """
+                    } catch(Exception err) {
+                        echo "no app running."
+                    }
+                }
+                // 删除旧的镜像
+                script {
+                    try {
+                    sh """ 
+                        docker rmi 43.139.176.247/fruit_buckets/oranget:latest
+                    """
+                    } catch(Exception err) {
+                        echo "no 43.139.176.247/fruit_buckets/oranget:latest image!"
+                    }
+                }
 			}
         }
-        stage('push-image&&pull') {
+        stage('build && push-image && pull') {
 			steps{
-	        	echo "pulling..."
+	        	echo 'Building..已经拉取源码，在此处执行构建'// 已经拉取源码，在此处执行构建
+                withCredentials([usernamePassword(credentialsId: 'jenkins-access-harbor', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]){
+                    sh """
+                        echo ${PASSWORD} | docker login -u 'gongyulei' --password-stdin 43.139.176.247/fruit_buckets
+
+                        # build
+                        docker build -t 43.139.176.247/fruit_buckets/oranget:latest .
+                        docker push 43.139.176.247/fruit_buckets/oranget:latest
+                    """
+                }
 			}
         }
         stage('deploy') {
 			steps{
-          		echo "deploy! running...."
+          		withCredentials([usernamePassword(credentialsId: 'jenkins-access-harbor', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]){
+                    sh """
+                        echo ${PASSWORD} | docker login -u 'gongyulei' --password-stdin 43.139.176.247/fruit_buckets
+
+                        # pull
+                        docker pull 43.139.176.247/fruit_buckets/oranget:latest
+                        # deploy
+                        docker run -d --name app_back -p4000:8080 43.139.176.247/fruit_buckets/oranget:latest
+                    """
+                }
 			}
         }
     }
