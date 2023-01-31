@@ -7,8 +7,12 @@ ENV GO111MODULE=on \
     GOPROXY="https://goproxy.cn,direct"
 
 WORKDIR /oranget
-COPY src/app ./app
+ADD ./go.mod .
+ADD ./go.sum .
+COPY src ./src
+
+RUN ["go", "build", "./src/main.go"]
 
 EXPOSE 8080
 # CMD ["/oranget/app"]
-ENTRYPOINT [ "./app" ]
+ENTRYPOINT [ "./main" ]
