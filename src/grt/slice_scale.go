@@ -12,9 +12,8 @@ func main() {
 	fmt.Println("| now, scale slice1 here. |")
 	fmt.Println("+-------------------------+")
 	slice1 = slice1[:cap(slice1)]
+	fmt.Printf("| slice1 len after scale %v|\n", len(slice1))
 	fmt.Println("+-------------------------+")
-	fmt.Printf(" slice1 len after scale %v\n", len(slice1))
-	fmt.Println("+-------------------------+")
-	fmt.Printf(" slice1 cap after scale %v\n", cap(slice1))
+	fmt.Printf("| slice1 cap after scale %v|\n", cap(slice1))
 	fmt.Println("+-------------------------+")
 }
