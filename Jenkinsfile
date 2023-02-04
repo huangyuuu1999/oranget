@@ -47,12 +47,13 @@ pipeline {
 			steps{
           		withCredentials([usernamePassword(credentialsId: 'jenkins-access-harbor', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]){
                     sh """
-                        echo ${PASSWORD} | docker login -u 'gongyulei' --password-stdin 43.139.176.247/fruit_buckets
+                        // echo ${PASSWORD} | docker login -u 'gongyulei' --password-stdin 43.139.176.247/fruit_buckets
 
-                        # pull
-                        docker pull 43.139.176.247/fruit_buckets/oranget:latest
-                        # deploy
-                        docker run -d --name app_back -p4000:8080 43.139.176.247/fruit_buckets/oranget:latest
+                        // # pull
+                        // docker pull 43.139.176.247/fruit_buckets/oranget:latest
+                        // # deploy
+                        // docker run -d --name app_back -p4000:8080 43.139.176.247/fruit_buckets/oranget:latest
+                        echo 'do not apply by docker anymore...'
                     """
                 }
 			}
