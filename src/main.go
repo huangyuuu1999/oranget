@@ -1,8 +1,10 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
+	"fmt"
 	"time"
+	"github.com/huangyuuu1999/oranget/src/package1"
+	"github.com/gin-gonic/gin"
 )
 
 type HeroInfo struct {
@@ -11,6 +13,7 @@ type HeroInfo struct {
 	Attack int
 	Wise   int
 }
+
 
 func main() {
 	r := gin.Default()
@@ -35,6 +38,10 @@ func main() {
 				HeroInfo{"吴佩孚", 46, 81, 79},
 			},
 		})
+	})
+	r.GET("/api/sites", func(c *gin.Context) {
+		sites := package1.GetAllSites()
+		fmt.Println(sites)
 	})
 	err := r.Run()
 	if err != nil {
