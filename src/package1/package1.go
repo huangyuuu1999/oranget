@@ -76,8 +76,8 @@ func testGormSelect() {
 func ConnectDB() *gorm.DB {
 	username := "root"
 	password := "123456"
-	host := "10.103.164.161"
-	port := 3306
+	host := "43.139.176.247"
+	port := 3000
 	Dbname := "fruit_buckets"
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8&parseTime=True&loc=Local", username, password, host, port, Dbname)
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
