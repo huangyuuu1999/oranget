@@ -11,10 +11,10 @@ import (
 
 type Site struct {
 	ID         int64
-	Sitename   string `gorm:"column:sitename"`
-	Uri        string `gorm:"column:uri"`
-	Createtime string `gorm:"column:create_time"`
-	VisitNum   int64  `gorm:"column:visit_num"`
+	Sitename   string `gorm:"column:sitename" json:"name"`
+	Uri        string `gorm:"column:uri" json:"url"`
+	Createtime string `gorm:"column:create_time" json:"create_time"`
+	VisitNum   int64  `gorm:"column:visit_num" json:"visited"`
 }
 
 type Food struct {
