@@ -2,9 +2,10 @@ package main
 
 import (
 	"fmt"
-	"time"
-	"github.com/huangyuuu1999/oranget/src/package1"
 	"github.com/gin-gonic/gin"
+	"github.com/huangyuuu1999/oranget/src/package1"
+	"net/http"
+	"time"
 )
 
 type HeroInfo struct {
@@ -13,7 +14,6 @@ type HeroInfo struct {
 	Attack int
 	Wise   int
 }
-
 
 func main() {
 	r := gin.Default()
@@ -42,6 +42,9 @@ func main() {
 	r.GET("/api/sites", func(c *gin.Context) {
 		sites := package1.GetAllSites()
 		fmt.Println(sites)
+		c.JSON(http.StatusOK, gin.H{
+			"info": sites,
+		})
 	})
 	err := r.Run()
 	if err != nil {

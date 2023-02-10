@@ -32,9 +32,9 @@ func (v Food) TableName() string {
 func testGormCreate() {
 	username := "root"
 	password := "123456"
-	host := "127.0.0.1"
+	host := "10.103.164.161"
 	port := 3306
-	Dbname := "orangen"
+	Dbname := "fruit_buckets"
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8&parseTime=True&loc=Local", username, password, host, port, Dbname)
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
@@ -76,9 +76,9 @@ func testGormSelect() {
 func ConnectDB() *gorm.DB {
 	username := "root"
 	password := "123456"
-	host := "127.0.0.1"
+	host := "10.103.164.161"
 	port := 3306
-	Dbname := "orangen"
+	Dbname := "fruit_buckets"
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8&parseTime=True&loc=Local", username, password, host, port, Dbname)
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
@@ -98,10 +98,11 @@ func testSelectSites(db *gorm.DB) []Site {
 
 func main() {
 	// testGormCreate()
-	testGormSelect()
+	// testGormSelect()
 
-	db := ConnectDB()
-	testSelectSites(db)
+	// db := ConnectDB()
+	// testSelectSites(db)
+	fmt.Println("==__T__==")
 }
 
 func GetAllSites() []Site {
