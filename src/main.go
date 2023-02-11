@@ -47,6 +47,11 @@ func main() {
 		})
 	})
 	r.POST("/api/sites", package1.PostSite)
+
+	r.POST("/api/bind", package1.TestBindJSON)
+	r.POST("/api/sites-test", package1.PostSiteTest)
+
+
 	err := r.Run()
 	if err != nil {
 		return

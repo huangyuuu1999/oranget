@@ -12,7 +12,7 @@ import (
 )
 
 type Site struct {
-	ID         int64
+	ID         int64  `gorm:"column:id" json:"id"`
 	Sitename   string `gorm:"column:sitename" json:"name"`
 	Uri        string `gorm:"column:uri" json:"url"`
 	Createtime string `gorm:"column:create_time" json:"create_time"`
@@ -117,18 +117,58 @@ func PostSite(c *gin.Context) {
 	// 处理post 增加site的请求
 	siteObj := Site{}
 
-	if err := c.ShouldBind(&siteObj); err == nil {
+	if err := c.ShouldBindJSON(&siteObj); err != nil {
 		c.String(http.StatusOK, `json绑定为Site结构体失败`)
 	}
-	// db := ConnectDB()
+
 
 	now := time.Now().Format("2006-01-02 15:04:05")
 	siteObj.Createtime = now
-	siteObj.VisitNum = 0
+	siteObj.VisitNum = 9
+
+	db := ConnectDB()
+	result := db.Create(&siteObj)
+
+	c.JSON(http.StatusOK, gin.H{
+		"Error": result.Error,
+		"RowsAffected": result.RowsAffected,
+		"id": siteObj.ID,
+	})
+}
+
+type UserInfo struct {
+	Name string `json:"name"`
+	Age int64		`json:"age"`
+}
+
+type SiteTest struct {
+	// ID         int64  `json:"id"`
+	// Sitename   string `json:"sitename"`
+	// Uri        string `json:"uri"`
+	// Createtime string `json:"create_time"`
+	// VisitNum   int64  `json:"visit_num"`
+	Name string `json:"name"`
+}
+
+func TestBindJSON(c *gin.Context) {
+	var u UserInfo;
+	if err := c.ShouldBindJSON(&u); err != nil {
+		c.JSON(200, gin.H{
+			"msg": "你错了",
+		})
+	}
+	c.JSON(200, u)
+}
+
+func PostSiteTest(c *gin.Context) {
+	// 处理post 增加site的请求
+	var siteObj SiteTest
+	if err := c.ShouldBindJSON(&siteObj); err != nil {
+		c.String(http.StatusOK, `json绑定为Site结构体失败`)
+		return
+	}
 
 	fmt.Println(siteObj)
 
-	c.JSON(http.StatusOK, gin.H{
-		"id": 1,
-	})
+	c.JSON(http.StatusOK, siteObj)
 }
