@@ -158,3 +158,19 @@ func DeleteSite(c *gin.Context) {
 		"id": id,
 	})
 }
+
+func IncrVisitNum(id string) int64 {
+	site := Site{}
+	db := ConnectDB()
+	db.Where("id = ?", id).First(&site)
+	fmt.Println(site.VisitNum)
+	db.Model(&site).Where("id = ?", id).Update("visit_num", site.VisitNum+1)
+	return site.VisitNum + 1
+}
+
+func UpdateSite(c *gin.Context) {
+	id := c.Query("id")
+	c.JSON(200, gin.H{
+		"visit_num": IncrVisitNum(id),
+	})
+}
