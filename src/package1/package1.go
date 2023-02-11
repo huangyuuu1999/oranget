@@ -141,14 +141,6 @@ type UserInfo struct {
 	Age int64		`json:"age"`
 }
 
-type SiteTest struct {
-	// ID         int64  `json:"id"`
-	// Sitename   string `json:"sitename"`
-	// Uri        string `json:"uri"`
-	// Createtime string `json:"create_time"`
-	// VisitNum   int64  `json:"visit_num"`
-	Name string `json:"name"`
-}
 
 func TestBindJSON(c *gin.Context) {
 	var u UserInfo;
@@ -160,15 +152,13 @@ func TestBindJSON(c *gin.Context) {
 	c.JSON(200, u)
 }
 
-func PostSiteTest(c *gin.Context) {
-	// 处理post 增加site的请求
-	var siteObj SiteTest
-	if err := c.ShouldBindJSON(&siteObj); err != nil {
-		c.String(http.StatusOK, `json绑定为Site结构体失败`)
-		return
-	}
 
-	fmt.Println(siteObj)
+func DeleteSite(c *gin.Context) {
+	id := c.Query("id")
 
-	c.JSON(http.StatusOK, siteObj)
-}
+	db := ConnectDB()
+	db.Delete(&Site{}, id)
+	c.JSON(200, gin.H{
+		"id": id,
+	})
+} 

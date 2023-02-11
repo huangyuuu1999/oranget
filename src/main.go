@@ -49,7 +49,7 @@ func main() {
 	r.POST("/api/sites", package1.PostSite)
 
 	r.POST("/api/bind", package1.TestBindJSON)
-	r.POST("/api/sites-test", package1.PostSiteTest)
+	r.DELETE("/api/sites", package1.DeleteSite)
 
 
 	err := r.Run()
