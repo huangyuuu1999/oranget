@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/huangyuuu1999/oranget/src/package1"
+	"github.com/huangyuuu1999/oranget/src/router"
 	"net/http"
 	"time"
 )
@@ -51,6 +52,7 @@ func main() {
 	r.POST("/api/bind", package1.TestBindJSON)
 	r.DELETE("/api/sites", package1.DeleteSite)
 
+	r = router.LoadRouter(r)
 
 	err := r.Run()
 	if err != nil {

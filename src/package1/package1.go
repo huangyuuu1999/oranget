@@ -3,9 +3,9 @@ package package1
 import (
 	"errors"
 	"fmt"
-	"time"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"time"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -20,11 +20,11 @@ type Site struct {
 }
 
 type Food struct {
-	Id         int  // 表字段名为：id
-	Name       string // 表字段名为：name
+	Id         int     // 表字段名为：id
+	Name       string  // 表字段名为：name
 	Price      float64 // 表字段名为：price
-	TypeId     int  // 表字段名为：type_id
-	CreateTime int64 `gorm:"column:createtime"`  // 表字段名为：createtime
+	TypeId     int     // 表字段名为：type_id
+	CreateTime int64   `gorm:"column:createtime"` // 表字段名为：createtime
 }
 
 func (v Food) TableName() string {
@@ -112,7 +112,6 @@ func GetAllSites() []Site {
 	return testSelectSites(db)
 }
 
-
 func PostSite(c *gin.Context) {
 	// 处理post 增加site的请求
 	siteObj := Site{}
@@ -120,7 +119,6 @@ func PostSite(c *gin.Context) {
 	if err := c.ShouldBindJSON(&siteObj); err != nil {
 		c.String(http.StatusOK, `json绑定为Site结构体失败`)
 	}
-
 
 	now := time.Now().Format("2006-01-02 15:04:05")
 	siteObj.Createtime = now
@@ -130,20 +128,19 @@ func PostSite(c *gin.Context) {
 	result := db.Create(&siteObj)
 
 	c.JSON(http.StatusOK, gin.H{
-		"Error": result.Error,
+		"Error":        result.Error,
 		"RowsAffected": result.RowsAffected,
-		"id": siteObj.ID,
+		"id":           siteObj.ID,
 	})
 }
 
 type UserInfo struct {
 	Name string `json:"name"`
-	Age int64		`json:"age"`
+	Age  int64  `json:"age"`
 }
 
-
 func TestBindJSON(c *gin.Context) {
-	var u UserInfo;
+	var u UserInfo
 	if err := c.ShouldBindJSON(&u); err != nil {
 		c.JSON(200, gin.H{
 			"msg": "你错了",
@@ -151,7 +148,6 @@ func TestBindJSON(c *gin.Context) {
 	}
 	c.JSON(200, u)
 }
-
 
 func DeleteSite(c *gin.Context) {
 	id := c.Query("id")
@@ -161,4 +157,4 @@ func DeleteSite(c *gin.Context) {
 	c.JSON(200, gin.H{
 		"id": id,
 	})
-} 
+}
