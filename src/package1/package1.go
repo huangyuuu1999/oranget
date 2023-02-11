@@ -4,6 +4,8 @@ import (
 	"errors"
 	"fmt"
 	"time"
+	"github.com/gin-gonic/gin"
+	"net/http"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -108,4 +110,25 @@ func main() {
 func GetAllSites() []Site {
 	db := ConnectDB()
 	return testSelectSites(db)
+}
+
+
+func PostSite(c *gin.Context) {
+	// 处理post 增加site的请求
+	siteObj := Site{}
+
+	if err := c.ShouldBind(&siteObj); err == nil {
+		c.String(http.StatusOK, `json绑定为Site结构体失败`)
+	}
+	// db := ConnectDB()
+
+	now := time.Now().Format("2006-01-02 15:04:05")
+	siteObj.Createtime = now
+	siteObj.VisitNum = 0
+
+	fmt.Println(siteObj)
+
+	c.JSON(http.StatusOK, gin.H{
+		"id": 1,
+	})
 }

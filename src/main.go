@@ -46,6 +46,7 @@ func main() {
 			"info": sites,
 		})
 	})
+	r.POST("/api/sites", package1.PostSite)
 	err := r.Run()
 	if err != nil {
 		return
