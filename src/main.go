@@ -10,10 +10,11 @@ import (
 )
 
 type HeroInfo struct {
-	Name   string
-	Age    int
-	Attack int
-	Wise   int
+	Name        string
+	Age         int
+	Attack      int
+	Wise        int
+	DynamicTags []string
 }
 
 func main() {
@@ -30,13 +31,13 @@ func main() {
 	r.GET("/api/info", func(c *gin.Context) {
 		c.JSON(200, gin.H{
 			"info": []interface{}{
-				HeroInfo{"朱元璋", 34, 76, 86},
-				HeroInfo{"宋江", 45, 65, 82},
-				HeroInfo{"洪秀全", 32, 89, 56},
-				HeroInfo{"项羽", 28, 95, 75},
-				HeroInfo{"张全蛋", 26, 56, 80},
-				HeroInfo{"陈二", 28, 99, 65},
-				HeroInfo{"吴佩孚", 46, 81, 79},
+				HeroInfo{"朱元璋", 34, 76, 86, []string{"和尚", "陈友谅", "岳父🐂"}},
+				HeroInfo{"宋江", 45, 65, 82, []string{"黑厮", "及时雨"}},
+				HeroInfo{"洪秀全", 32, 89, 56, []string{"农民", "太平天国"}},
+				HeroInfo{"项羽", 28, 95, 75, []string{"大力举鼎", "学万人敌"}},
+				HeroInfo{"张全蛋", 26, 56, 80, []string{"foxxxx"}},
+				HeroInfo{"陈二", 28, 99, 65, []string{"打工仔", "小镇做题家"}},
+				HeroInfo{"吴佩孚", 46, 81, 79, []string{"军阀", "奉系", "孙传芳"}},
 			},
 		})
 	})
