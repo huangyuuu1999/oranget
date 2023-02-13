@@ -4,10 +4,10 @@ import "gorm.io/gorm"
 
 type UserBasic struct {
 	gorm.Model
-	Username      string
-	Password      string
-	Phone         string
-	Email         string
+	Username      string `gorm:"column:username"`
+	Password      string `gorm:"column:password"`
+	Phone         string `gorm:"column:phone"`
+	Email         string `gorm:"column:email"`
 	Identity      string
 	ClientIP      string
 	DeviceInfo    string
