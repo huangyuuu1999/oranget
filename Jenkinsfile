@@ -56,7 +56,7 @@ pipeline {
 
                         # build
                         docker build -t 43.139.176.247/fruit_buckets/oranjob:latest -f ./scrapy/Dockerfile
-                        docker push 43.139.176.247/fruit_buckets/oronjob:latest
+                        docker push 43.139.176.247/fruit_buckets/oranjob:latest
                     """
                 }
             }
