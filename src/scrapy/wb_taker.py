@@ -18,7 +18,7 @@ async def fake_visit(times, duration):
 
 async def main():
     tasks = []
-    n = random.randint(1, 30)
+    n = random.randint(1, 20)
     duration = random.random()
     for i in range(n):
         tasks.append(fake_visit(n, duration))
