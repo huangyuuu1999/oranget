@@ -29,22 +29,9 @@ pipeline {
                 }
 			}
         }
-        stage('build && push-image && pull') {
-			steps{
-	        	echo 'Building..已经拉取源码，在此处执行构建'// 已经拉取源码，在此处执行构建
-                withCredentials([usernamePassword(credentialsId: 'jenkins-access-harbor', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]){
-                    sh """
-                        echo ${PASSWORD} | docker login -u 'gongyulei' --password-stdin 43.139.176.247/fruit_buckets
-
-                        # build
-                        docker build -t 43.139.176.247/fruit_buckets/oranget:latest .
-                        docker push 43.139.176.247/fruit_buckets/oranget:latest
-                    """
-                }
-			}
-        }
         stage('build cronjob image') {
             when {
+                environment name: 'GIT_BRANCH', value: 'origin/test'
                 anyOf {
                     changeset 'src/scrapy/*'
                 }
@@ -60,6 +47,20 @@ pipeline {
                     """
                 }
             }
+        }
+        stage('build && push-image && pull') {
+			steps{
+	        	echo 'Building..已经拉取源码，在此处执行构建'// 已经拉取源码，在此处执行构建
+                withCredentials([usernamePassword(credentialsId: 'jenkins-access-harbor', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]){
+                    sh """
+                        echo ${PASSWORD} | docker login -u 'gongyulei' --password-stdin 43.139.176.247/fruit_buckets
+
+                        # build
+                        docker build -t 43.139.176.247/fruit_buckets/oranget:latest .
+                        docker push 43.139.176.247/fruit_buckets/oranget:latest
+                    """
+                }
+			}
         }
         stage('deploy') {
 			steps{
