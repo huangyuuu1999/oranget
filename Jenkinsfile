@@ -55,7 +55,7 @@ pipeline {
                         echo ${PASSWORD} | docker login -u 'gongyulei' --password-stdin 43.139.176.247/fruit_buckets
 
                         # build
-                        docker build -t 43.139.176.247/fruit_buckets/oranjob:latest ./src/scrapy/Dockerfile
+                        docker build -t 43.139.176.247/fruit_buckets/oranjob:latest ./src/scrapy/
                         docker push 43.139.176.247/fruit_buckets/oranjob:latest
                     """
                 }
