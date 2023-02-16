@@ -26,4 +26,6 @@ async def main():
 
 
 if __name__ == '__main__':
+    print('模拟随机访问开始.....')
     asyncio.run(main())
+    print('模拟随机访问结束.....')
