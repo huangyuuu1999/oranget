@@ -7,7 +7,7 @@ WORKDIR /cronjob
 ADD . /cronjob/
 
 RUN pip install -i https://pypi.douban.com/simple/ --upgrade pip \
-    && pip install -i https://pypi.douban.com/simple/ -r /cronjob/requirements.txt
+    && pip install -i https://pypi.douban.com/simple/ --trusted-host pypi.douban.com -r /cronjob/requirements.txt
 
 ENV PYTHONPATH "${PYTHONPATH}:/cronjob"
 
