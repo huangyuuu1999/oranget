@@ -91,9 +91,6 @@ func ConnectDB() *gorm.DB {
 func testSelectSites(db *gorm.DB) []Site {
 	var sites []Site
 	db.Find(&sites)
-	for _, a := range sites {
-		fmt.Printf("| %d | %s | %s | %d \n", a.ID, a.Sitename, a.Createtime, a.VisitNum)
-	}
 	return sites
 }
 
@@ -108,6 +105,13 @@ func main() {
 
 func GetAllSites() []Site {
 	db := ConnectDB()
+	defer func ()  {
+		sqlDB, err := db.DB()
+		if err != nil {
+			panic(err)
+		}
+		sqlDB.Close()
+	}()
 	return testSelectSites(db)
 }
 
@@ -169,6 +173,13 @@ func DeleteSite(c *gin.Context) {
 func IncrVisitNum(id string) int64 {
 	site := Site{}
 	db := ConnectDB()
+	defer func ()  {
+		sqlDB, err := db.DB()
+		if err != nil {
+			panic(err)
+		}
+		sqlDB.Close()
+	}()
 	db.Where("id = ?", id).First(&site)
 	fmt.Println(site.VisitNum)
 	db.Model(&site).Where("id = ?", id).Update("visit_num", site.VisitNum+1)
@@ -198,7 +209,6 @@ func GetHero(c *gin.Context) {
 
 func GetSites(c *gin.Context) {
 	sites := GetAllSites()
-	fmt.Println(sites)
 	c.JSON(http.StatusOK, gin.H{
 		"info": sites,
 	})

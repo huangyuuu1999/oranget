@@ -14,6 +14,7 @@ type T struct {
 func main() {
   t := T{2, 3.14, "miemie"}
   fmt.Println(t)
+)
 }
 
 func (t *T) String() string {

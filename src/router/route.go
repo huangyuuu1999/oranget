@@ -1,11 +1,12 @@
 package router
 
 import (
+	"net/http"
+
 	"github.com/gin-gonic/gin"
 	"github.com/huangyuuu1999/oranget/src/common"
 	"github.com/huangyuuu1999/oranget/src/model"
 	"github.com/huangyuuu1999/oranget/src/package1"
-	"net/http"
 )
 
 func LoadRouter(r *gin.Engine) *gin.Engine {
@@ -51,6 +52,5 @@ func LoadRouter(r *gin.Engine) *gin.Engine {
 		})
 
 	})
-
 	return r
 }

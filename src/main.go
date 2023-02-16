@@ -1,14 +1,17 @@
 package main
 
 import (
+	"time"
+
 	"github.com/gin-gonic/gin"
+	"github.com/huangyuuu1999/oranget/src/middleware"
 	"github.com/huangyuuu1999/oranget/src/package1"
 	"github.com/huangyuuu1999/oranget/src/router"
-	"time"
 )
 
 func main() {
 	r := gin.Default()
+	r.Use(middleware.CostTime())
 	r.GET("/api/ping", func(c *gin.Context) {
 		now := time.Now()
 		c.JSON(200, gin.H{
