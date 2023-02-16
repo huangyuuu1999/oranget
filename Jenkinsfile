@@ -43,6 +43,24 @@ pipeline {
                 }
 			}
         }
+        stage('build cronjob image') {
+            when {
+                anyOf {
+                    changeset 'src/scrapy/*'
+                }
+            }
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'jenkins-access-harbor', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]){
+                    sh """
+                        echo ${PASSWORD} | docker login -u 'gongyulei' --password-stdin 43.139.176.247/fruit_buckets
+
+                        # build
+                        docker build -t 43.139.176.247/fruit_buckets/oranjob:latest -f ./scrapy/Dockerfile
+                        docker push 43.139.176.247/fruit_buckets/oronjob:latest
+                    """
+                }
+            }
+        }
         stage('deploy') {
 			steps{
           		withCredentials([usernamePassword(credentialsId: 'jenkins-access-harbor', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]){
