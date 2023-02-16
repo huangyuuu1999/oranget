@@ -1,6 +1,6 @@
 FROM 43.139.176.247/fruit_buckets/python:3.9-alpine
 
-RUN echo "dockerfile under scrapy.."
+RUN echo "dockerfile under scrapy"
 
 WORKDIR /cronjob
 
