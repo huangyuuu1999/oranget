@@ -1,4 +1,4 @@
-REATE TABLE `sites` (
+CREATE TABLE `sites` (
 	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'id',
 	`sitename` VARCHAR(32) NOT NULL DEFAULT '' COLLATE 'utf8mb4_general_ci',
 	`uri` VARCHAR(128) NULL DEFAULT NULL COMMENT 'url' COLLATE 'utf8mb4_general_ci',
@@ -11,3 +11,13 @@ COLLATE='utf8mb4_general_ci'
 ENGINE=InnoDB
 AUTO_INCREMENT=14
 ;
+
+CREATE TABLE `visit_record` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `time` INT UNSIGNED NOT NULL COMMENT '访问时间',
+  `cost_time` INT NOT NULL COMMENT '接口响应时间',
+  `path` VARCHAR(128) NOT NULL COMMENT 'api',
+  `ip` VARCHAR(32) COMMENT '客户端IP',
+  `method` VARCHAR(10) COMMENT '请求方法',
+  PRIMARY KEY (`id`) USING BTREE
+)COMMENT '访问记录表' CHARSET=utf8mb4 ENGINE=InnoDB;
